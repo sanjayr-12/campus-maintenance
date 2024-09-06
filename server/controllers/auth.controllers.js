@@ -80,16 +80,21 @@ export const addWorkers = async (req, res) => {
     if (!getStaff) {
       return res.status(400).json({ error: "No Staff found" });
     }
-    const check = await Staff.findOneAndUpdate({ slug }, {
-      $set: {
-        workers
+    const check = await Staff.findOneAndUpdate(
+      { slug },
+      {
+        $set: {
+          workers,
+        },
       },
-      
-    },{new:true})
+      { new: true }
+    );
     if (check) {
-      return res.status(200).json({message:"already assigned and updated the workers"})
+      return res
+        .status(200)
+        .json({ message: "already assigned and updated the workers" });
     }
-    
+
     const newData = new Staff({
       name: getStaff.name,
       staffId: getStaff.uuid,
@@ -104,3 +109,14 @@ export const addWorkers = async (req, res) => {
     res.status(500).json({ error: "Internal server error " + error.message });
   }
 };
+
+
+export const getAll = async (req, res) => {
+  try {
+    const getData = await Staff.find()
+     res.status(200).json(getData);
+  } catch (error) {
+    return res.status(500).json({error:"Internal server error "+error.message})
+  }
+ 
+}

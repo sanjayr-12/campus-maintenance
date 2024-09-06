@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 
-const adminSchema = mongoose.Schema(
+const adminSchema = new mongoose.Schema(
   {
     email: {
       type: String,

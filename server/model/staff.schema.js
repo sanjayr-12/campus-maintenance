@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 import { generateId } from "../utils/generateId.js";
 
-
-const staffSchema = mongoose.Schema({
+const staffSchema = new mongoose.Schema({
   name: {
     type: String,
   },
   staffId: {
     type: String,
-    },
-    slug: {
-      type:String
+  },
+  slug: {
+    type: String,
   },
   location: {
     type: String,
@@ -18,8 +17,8 @@ const staffSchema = mongoose.Schema({
   workers: [
     {
       id: {
-            type: String,
-          default:generateId
+        type: String,
+        default: generateId,
       },
       name: {
         type: String,

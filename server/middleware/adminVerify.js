@@ -12,9 +12,7 @@ export const protectRoute = async (req, res, next) => {
             return res.status(401).json({error:"Unauthorized"})
         }
         const admin = await Admin.findById(verify.id).select("-password")
-        if (!admin.isAdmin) {
-            return res.status(401).json({error:"you are not authorized to perform action"})            
-        }
+
         req.admin = admin
 
         next()
