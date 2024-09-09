@@ -120,3 +120,23 @@ export const getAll = async (req, res) => {
   }
  
 }
+
+
+export const deleteStaff = async (req, res) => {
+  try {
+     const { id } = req.params;
+     const checkStaff = await Staff.findByIdAndDelete(id);
+
+     if (!checkStaff) {
+       return res.status(400).json({ error: "there is no staff" });
+     }
+     res
+       .status(200)
+       .json({
+         message: `${checkStaff.name} - ${checkStaff.slug} deleted successfully`,
+       });
+  } catch (error) {
+    res.status(500).json({error:"Internal server error "+error.message})
+  }
+ 
+}
