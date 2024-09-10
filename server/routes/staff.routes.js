@@ -6,7 +6,8 @@ import {
   getAll,
   logout,
     updateWorkers,
-  deleteWorkers
+  deleteWorkers,
+  verifyMe
 } from "../controllers/staff.controller.js";
 import { protectRoute } from "../middleware/adminVerify.js";
 import { protectStaffRoute } from "../middleware/staffVerify.js";
@@ -20,5 +21,6 @@ router.get("/getAll", protectStaffRoute, getAll);
 router.post("/logout", protectStaffRoute, logout);
 router.patch("/update", protectStaffRoute, updateWorkers);
 router.delete("/delete/:id", protectStaffRoute, deleteWorkers);
+router.get("/verify", protectStaffRoute, verifyMe);
 
 export default router;

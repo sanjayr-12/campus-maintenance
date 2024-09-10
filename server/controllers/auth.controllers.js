@@ -141,3 +141,18 @@ export const deleteStaff = async (req, res) => {
  
 }
 
+export const verifyMe = async (req, res) => {
+  try {
+    const id = req.admin._id;
+    const result = await Staff.findById(id).select("-password");
+    if (!result) {
+      return res
+        .status(401)
+        .json({ error: "verify fails, you are not authorized" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error " + error.message });
+  }
+};
