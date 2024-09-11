@@ -1,12 +1,18 @@
-body{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;  
+:root{
+  --clr-dark: #070a13;
+  --clr-light: #f1f5f9;
 }
 
-#root{
-  height: 100%;
-  width: 100%;
+*{
+    margin: 0;
+    line-height: calc(1em + 0.5rem);
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+     font-family: "Noto Sans", sans-serif;
+     background-color: var(--clr-dark);
+     color: var(--clr-light);
 }

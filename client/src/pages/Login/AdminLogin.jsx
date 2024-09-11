@@ -25,6 +25,7 @@ const AdminLogin = () => {
       user({
         name: response.data.name,
         email: response.data.email,
+        admin:response.data.isAdmin
       });
       navigate("/dashboard");
       console.log(response.data);
@@ -37,18 +38,21 @@ const AdminLogin = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="email" name="email" placeholder="enter your email" />
-      <br />
-      <input
-        type="password"
-        name="password"
-        placeholder="enter your password"
-      />
-      <br />
-      <input type="submit" disabled={dis} />
-      <Toaster />
-    </form>
+    <div className="form-main-container">
+      <h1>Admin Login</h1>
+      <form onSubmit={handleSubmit} className="form-container">
+        <input type="email" name="email" placeholder="Enter your email" />
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+        />
+        <br />
+        <input type="submit" disabled={dis} />
+        <Toaster />
+      </form>
+    </div>
   );
 };
 
