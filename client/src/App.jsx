@@ -1,19 +1,24 @@
-// App.jsx
-
 import { Route, Routes } from "react-router-dom";
 import AdminLogin from "./pages/Login/AdminLogin";
-import useStore from "./store/zustand"; // Import zustand store
+import { ProtectedRoutes } from "./utils/ProtectedRoutes";
+import { Dashboard } from "./pages/dashboard/Dashboard";
+import Verify from "./utils/Verify";
+
+
 
 function App() {
-  // Correct usage of the hook to access state
-  const user = useStore((state) => state.user);
+  
 
   return (
     <div>
       <Routes>
         <Route path="/login" element={<AdminLogin />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<Verify />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+        </Route>
       </Routes>
-      {console.log(user)}
     </div>
   );
 }
