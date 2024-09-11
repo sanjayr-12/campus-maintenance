@@ -9,18 +9,18 @@ import {
   deleteWorkers,
   verifyMe
 } from "../controllers/staff.controller.js";
-import { protectRoute } from "../middleware/adminVerify.js";
-import { protectStaffRoute } from "../middleware/staffVerify.js";
+
+import { protectRoute } from "../middleware/ProtectAuth.js";
+
 
 const router = express.Router();
 
 router.post("/staffUp", protectRoute, signup);
-// router.post("/addWorkers",protectRoute, addWorkers)
 router.post("/login", login);
-router.get("/getAll", protectStaffRoute, getAll);
-router.post("/logout", protectStaffRoute, logout);
-router.patch("/update", protectStaffRoute, updateWorkers);
-router.delete("/delete/:id", protectStaffRoute, deleteWorkers);
-router.get("/verify", protectStaffRoute, verifyMe);
+router.get("/getAll", protectRoute, getAll);
+router.post("/logout", protectRoute, logout);
+router.patch("/update", protectRoute, updateWorkers);
+router.delete("/delete/:id", protectRoute, deleteWorkers);
+router.get("/verify", protectRoute, verifyMe);
 
 export default router;

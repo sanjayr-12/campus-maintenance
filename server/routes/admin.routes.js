@@ -8,7 +8,7 @@ import {
   deleteStaff,
   verifyMe
 } from "../controllers/auth.controllers.js";
-import { protectRoute } from "../middleware/adminVerify.js";
+import { protectRoute } from "../middleware/ProtectAuth.js";
 
 const router = express.Router();
 

@@ -42,11 +42,13 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const loginAdmin = await Admin.findOne({ email });
+    const loginAdmin = await Admin.findOne({ email })
+    // console.log(loginAdmin);
     const checkPassword = await bcrypt.compare(
       password,
       loginAdmin?.password || ""
     );
+    // console.log(checkPassword);
 
     if (!loginAdmin || !checkPassword) {
       return res.status(400).json({ message: "invalid email or password" });
@@ -58,6 +60,7 @@ export const login = async (req, res) => {
       _id: loginAdmin._id,
       name: loginAdmin.name,
       email: loginAdmin.email,
+      isAdmin:loginAdmin.isAdmin
     });
   } catch (error) {
     res.status(500).json({ error: "internal server error " + error.message });
@@ -144,7 +147,8 @@ export const deleteStaff = async (req, res) => {
 export const verifyMe = async (req, res) => {
   try {
     const id = req.admin._id;
-    const result = await Staff.findById(id).select("-password");
+    // console.log(id);
+    const result = await Admin.findById(id).select("-password");
     if (!result) {
       return res
         .status(401)

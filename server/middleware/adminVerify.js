@@ -15,11 +15,10 @@ export const protectRoute = async (req, res, next) => {
         if (!admin) {
             return res.status(401).json({error:"You are not logged"})
         }
-        // console.log(admin);
-        if (!admin.isAdmin) {
-            return res.status(400).json({error:"you are not authorized"})
-        }
-
+        // // console.log(admin);
+        // if (!admin.isAdmin) {
+        //     return res.status(400).json({error:"you are not authorized"})
+        // }
         req.admin = admin
 
         next()
