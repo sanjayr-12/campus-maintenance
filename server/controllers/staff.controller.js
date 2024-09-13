@@ -74,14 +74,14 @@ export const getAll = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {
-  try {
-    res.cookie("token", "", { maxAge: 0 });
-    res.status(200).json({ message: "user logged out successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error " + error.message });
-  }
-};
+// export const logout = async (req, res) => {
+//   try {
+//     res.cookie("token", "", { maxAge: 0 });
+//     res.status(200).json({ message: "user logged out successfully" });
+//   } catch (error) {
+//     res.status(500).json({ error: "Internal server error " + error.message });
+//   }
+// };
 
 export const updateWorkers = async (req, res) => {
   try {

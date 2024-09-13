@@ -51,7 +51,7 @@ export const login = async (req, res) => {
     // console.log(checkPassword);
 
     if (!loginAdmin || !checkPassword) {
-      return res.status(400).json({ message: "invalid email or password" });
+      return res.status(400).json({ error: "invalid email or password" });
     }
 
     GenerateToken(loginAdmin._id, res);
@@ -67,14 +67,14 @@ export const login = async (req, res) => {
   }
 };
 
-export const logout = async (req, res) => {
-  try {
-    res.cookie("token", "", { maxAge: 0 });
-    res.status(200).json({ message: "logged out successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "internal server error" });
-  }
-};
+// export const logout = async (req, res) => {
+//   try {
+//     res.cookie("token", "", { maxAge: 0 });
+//     res.status(200).json({ message: "logged out successfully" });
+//   } catch (error) {
+//     res.status(500).json({ error: "internal server error" });
+//   }
+// };
 
 export const addWorkers = async (req, res) => {
   try {
