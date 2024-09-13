@@ -27,6 +27,7 @@
   background-color: #1b2535;
   border-radius: 20px;
   padding: 10px 40px;
+  overflow: hidden;
 }
 
 .nav-container a {
@@ -113,4 +114,14 @@
     font-size: small;
     justify-content: center;
   }
+}
+
+@media (250px <= width <= 425px){
+    .nav-container{
+      gap: 1px;
+      overflow: hidden;
+      font-size: smaller;
+      width: 100%;
+      margin-right: 0%;
+    }
 }

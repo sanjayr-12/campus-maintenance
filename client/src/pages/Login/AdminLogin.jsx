@@ -14,20 +14,22 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const user = useStore((state) => state.setUser);
   const setisAdmin = useStore((state) => state.setAdmin);
-  const isAdmin = useStore((state)=> state.admin)
+  const isAdmin = useStore((state) => state.admin);
   const [dis, setDis] = useState(false);
   const [loading, setLoading] = useState(false);
   // const [isAdmin, setisAdmin] = useState(true)
+  const setLogout = useStore((state) => state.setLogOut);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const email = sanitizeInput(data.get("email"));
     const password = sanitizeInput(data.get("password"));
+
     try {
       setDis(true);
       setLoading(true);
-      let response = null
+      let response = null;
       if (isAdmin) {
         response = await axios.post("/api/admin/login", {
           email,
@@ -40,40 +42,42 @@ const AdminLogin = () => {
           admin: true,
         });
       } else {
-        response = await axios.post("/api/staff/login", { username:email, password })
+        response = await axios.post("/api/staff/login", {
+          username: email,
+          password,
+        });
         toast.success("Logged in as Staff");
-         user({
-           name: response.data.name,
-           slug: response.data.slug,
-           admin: false,
-         });
+        user({
+          name: response.data.name,
+          slug: response.data.slug,
+          admin: false,
+        });
       }
       setDis(false);
       setLoading(false);
-      
+      setLogout(false);
       navigate("/dashboard");
-      console.log(response.data);
     } catch (error) {
       setDis(false);
       setLoading(false);
-      toast.error(error.response.data.message);
-      console.log(error);
+      toast.error(error.response.data.error);
       navigate("/login");
+      setLogout(false);
     }
   };
 
   const handleStaff = () => {
-     setisAdmin(!isAdmin)
-  }
+    setisAdmin(!isAdmin);
+  };
 
   return (
     <div className="form-main-container">
-      <h1>{isAdmin?"Admin Login":"Staff Login"}</h1>
+      <h1>{isAdmin ? "Admin Login" : "Staff Login"}</h1>
       <form onSubmit={handleSubmit} className="form-container">
         <input
-          type={isAdmin?"email":"text"}
+          type={isAdmin ? "email" : "text"}
           name="email"
-          placeholder={isAdmin?"Enter your email":"Enter your username"}
+          placeholder={isAdmin ? "Enter your email" : "Enter your username"}
           required
         />
         <br />
@@ -90,7 +94,7 @@ const AdminLogin = () => {
         />
         <br />
         <p onClick={handleStaff}>Not an admin! sign in as a Staff</p>
-        
+
         <Toaster />
       </form>
     </div>

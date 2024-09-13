@@ -7,24 +7,27 @@ import { useNavigate } from "react-router-dom";
 
 export const NavBar = () => {
   const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser)
-  console.log(user);
+  const setUser = useStore((state) => state.setUser);
+  const setLogout = useStore((state) => state.setLogOut);
+
+  // console.log(user);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        "/api/admin/logout",
+        "/api/util/logout",
         {},
         { withCredentials: true }
       );
       if (response.status == 200) {
-        setUser({user:null})
-        toast.success("logged out");
+        setUser({ user: null });
+        setLogout(true);
         navigate("/login");
       }
     } catch (error) {
       console.log(error);
+      setLogout(false);
       toast.error("error in loggout");
     }
   };
@@ -32,7 +35,7 @@ export const NavBar = () => {
   return (
     <div className="main-nav-container">
       <div className="nav-container">
-        <p>{user.name}</p>
+        <p>{user?.name}</p>
         <Link to="/assign-works">Assign Works</Link>
         <Link to="/status">Status</Link>
         <p className="nav-logout" onClick={handleLogout}>
