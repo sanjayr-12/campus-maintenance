@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 export const NavBar = () => {
   const user = useStore((state) => state.user);
+  const setUser = useStore((state) => state.setUser)
+  console.log(user);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -17,6 +19,7 @@ export const NavBar = () => {
         { withCredentials: true }
       );
       if (response.status == 200) {
+        setUser({user:null})
         toast.success("logged out");
         navigate("/login");
       }

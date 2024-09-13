@@ -41,6 +41,11 @@
   opacity: 0.6;
 }
 
+.form-container p{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 @media (max-width:425px){
     .form-container{
         width: 150px;

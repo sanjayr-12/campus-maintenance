@@ -10,14 +10,16 @@ const Verify = () => {
   useEffect(() => {
     async function verify() {
       try {
-        const response = await axios.get("/api/admin/verify", {
+        const response = await axios.get("/api/util/verify", {
           withCredentials: true,
         });
         if (response.status === 200) {
+          // console.log(response.data);
           localStorage.setItem(
             "user",
             JSON.stringify({
               name: response.data.name,
+              admin:response.data?.isAdmin||false
             })
           );
         }
