@@ -23,7 +23,7 @@ export const protectRoute = async (req, res, next) => {
         }
 
         if (admin) {
-            req.admin = admin
+            req.user = admin
             next()
         }
 

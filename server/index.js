@@ -4,6 +4,7 @@ import connectDB from "./db/campus.db.js"
 import cookieParser from "cookie-parser"
 import authRoutes from "./routes/admin.routes.js"
 import staffRoutes from "./routes/staff.routes.js"
+import commonRoutes from "./routes/common.routes.js"
 import cors from "cors"
 const app = express()
 dotenv.config()
@@ -16,7 +17,8 @@ const PORT  = process.env.PORT
 app.use(cookieParser())
 
 app.use("/api/admin",authRoutes)
-app.use("/api/staff",staffRoutes)
+app.use("/api/staff", staffRoutes)
+app.use("/api/util", commonRoutes)
 
 
 app.listen(PORT, () => {

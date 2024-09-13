@@ -52,6 +52,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       _id: getStaff._id,
+      name:getStaff.name,
       slug: username,
     });
   } catch (error) {
@@ -130,8 +131,8 @@ export const deleteWorkers = async (req, res) => {
 
 export const verifyMe = async (req,res) => {
   try {
-    const id = req.user._id
-    const result = await Staff.findById(id).select("-password")
+    const id = req.user.slug
+    const result = await EId.find({slug:id}).select("-password")
     if (!result) {
       return res.status(401).json({ error: "verify fails, you are not authorized" })
     }

@@ -7,11 +7,11 @@ import {
   logout,
     updateWorkers,
   deleteWorkers,
-  verifyMe
+
 } from "../controllers/staff.controller.js";
 
 import { protectRoute } from "../middleware/ProtectAuth.js";
-
+import { verifyMe } from "../middleware/verify.js";
 
 const router = express.Router();
 
@@ -21,6 +21,6 @@ router.get("/getAll", protectRoute, getAll);
 router.post("/logout", protectRoute, logout);
 router.patch("/update", protectRoute, updateWorkers);
 router.delete("/delete/:id", protectRoute, deleteWorkers);
-router.get("/verify", protectRoute, verifyMe);
+// router.get("/verify", protectRoute, verifyMe);
 
 export default router;
