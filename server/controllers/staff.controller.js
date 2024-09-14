@@ -1,40 +1,7 @@
 import bcrypt from "bcrypt";
 import EId from "../model/staff.id.js";
-import slug from "slug";
-import { generateId } from "../utils/generateId.js";
 import Staff from "../model/staff.schema.js";
 import GenerateToken from "../jwt/generate.token.js";
-
-export const signup = async (req, res) => {
-  try {
-    const { password, name } = req.body;
-
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ error: "password must be atleast 6 characters long" });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
-    const id = generateId();
-    const sulgi = slug(`${name} ${id}`);
-
-    const newStaff = new EId({
-      name,
-      password: hash,
-      uuid: id,
-      slug: sulgi,
-    });
-    await newStaff.save();
-    res.status(200).json({ message: "staff created successfully" });
-  } catch (error) {
-    res.status(500).json({
-      error: "Internal server error" + error.message,
-    });
-  }
-};
 
 export const login = async (req, res) => {
   try {
@@ -52,7 +19,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       _id: getStaff._id,
-      name:getStaff.name,
+      name: getStaff.name,
       slug: username,
     });
   } catch (error) {
@@ -122,24 +89,24 @@ export const deleteWorkers = async (req, res) => {
     if (!deleteOne) {
       return res.status(400).json({ error: "cant delete" });
     }
-    res.status(200).json({ message: "deleted successfully "});
+    res.status(200).json({ message: "deleted successfully " });
   } catch (error) {
     res.status(500).json({ error: "Internal server error " + error.message });
   }
 };
 
-
-export const verifyMe = async (req,res) => {
+export const verifyMe = async (req, res) => {
   try {
-    const id = req.user.slug
-    const result = await EId.find({slug:id}).select("-password")
+    const id = req.user.slug;
+    const result = await EId.find({ slug: id }).select("-password");
     if (!result) {
-      return res.status(401).json({ error: "verify fails, you are not authorized" })
+      return res
+        .status(401)
+        .json({ error: "verify fails, you are not authorized" });
     }
 
-    res.status(200).json(result)
-
+    res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({error:"Internal server error " + error.message})
+    res.status(500).json({ error: "Internal server error " + error.message });
   }
-}
+};

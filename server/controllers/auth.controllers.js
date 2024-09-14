@@ -3,6 +3,8 @@ import Admin from "../model/admin.schema.js";
 import GenerateToken from "../jwt/generate.token.js";
 import EId from "../model/staff.id.js";
 import Staff from "../model/staff.schema.js";
+import slug from "slug";
+import { generateId } from "../utils/generateId.js";
 
 export const signup = async (req, res) => {
   try {
@@ -42,7 +44,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const loginAdmin = await Admin.findOne({ email })
+    const loginAdmin = await Admin.findOne({ email });
     // console.log(loginAdmin);
     const checkPassword = await bcrypt.compare(
       password,
@@ -60,7 +62,7 @@ export const login = async (req, res) => {
       _id: loginAdmin._id,
       name: loginAdmin.name,
       email: loginAdmin.email,
-      isAdmin:loginAdmin.isAdmin
+      isAdmin: loginAdmin.isAdmin,
     });
   } catch (error) {
     res.status(500).json({ error: "internal server error " + error.message });
@@ -113,36 +115,32 @@ export const addWorkers = async (req, res) => {
   }
 };
 
-
 export const getAll = async (req, res) => {
   try {
-    const getData = await Staff.find()
-     res.status(200).json(getData);
+    const getData = await Staff.find();
+    res.status(200).json(getData);
   } catch (error) {
-    return res.status(500).json({error:"Internal server error "+error.message})
+    return res
+      .status(500)
+      .json({ error: "Internal server error " + error.message });
   }
- 
-}
-
+};
 
 export const deleteStaff = async (req, res) => {
   try {
-     const { id } = req.params;
-     const checkStaff = await Staff.findByIdAndDelete(id);
+    const { id } = req.params;
+    const checkStaff = await Staff.findByIdAndDelete(id);
 
-     if (!checkStaff) {
-       return res.status(400).json({ error: "there is no staff" });
-     }
-     res
-       .status(200)
-       .json({
-         message: `${checkStaff.name} - ${checkStaff.slug} deleted successfully`,
-       });
+    if (!checkStaff) {
+      return res.status(400).json({ error: "there is no staff" });
+    }
+    res.status(200).json({
+      message: `${checkStaff.name} - ${checkStaff.slug} deleted successfully`,
+    });
   } catch (error) {
-    res.status(500).json({error:"Internal server error "+error.message})
+    res.status(500).json({ error: "Internal server error " + error.message });
   }
- 
-}
+};
 
 export const verifyMe = async (req, res) => {
   try {
@@ -158,5 +156,40 @@ export const verifyMe = async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: "Internal server error " + error.message });
+  }
+};
+
+export const staffRegister = async (req, res) => {
+  try {
+    const { password, name } = req.body;
+
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ error: "password must be atleast 6 characters long" });
+    }
+
+    if (!req.user?.isAdmin) {
+      return res.status(401).json({ error: "you are not authorized" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const id = generateId();
+    const sulgi = slug(`${name} ${id}`);
+
+    const newStaff = new EId({
+      name,
+      password: hash,
+      uuid: id,
+      slug: sulgi,
+    });
+    await newStaff.save();
+    res.status(200).json({ message: "staff created successfully" });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error" + error.message,
+    });
   }
 };

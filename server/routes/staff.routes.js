@@ -1,7 +1,6 @@
 //register for staff
 import express from "express";
 import {
-  signup,
   login,
   getAll,
     updateWorkers,
@@ -14,10 +13,8 @@ import { protectRoute } from "../middleware/ProtectAuth.js";
 
 const router = express.Router();
 
-router.post("/staffUp", protectRoute, signup);
 router.post("/login", login);
 router.get("/getAll", protectRoute, getAll);
-// router.post("/logout", protectRoute, logout);
 router.patch("/update", protectRoute, updateWorkers);
 router.delete("/delete/:id", protectRoute, deleteWorkers);
 
