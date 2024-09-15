@@ -69,14 +69,6 @@ export const login = async (req, res) => {
   }
 };
 
-// export const logout = async (req, res) => {
-//   try {
-//     res.cookie("token", "", { maxAge: 0 });
-//     res.status(200).json({ message: "logged out successfully" });
-//   } catch (error) {
-//     res.status(500).json({ error: "internal server error" });
-//   }
-// };
 
 export const addWorkers = async (req, res) => {
   try {
@@ -193,3 +185,17 @@ export const staffRegister = async (req, res) => {
     });
   }
 };
+
+
+export const getAllStaff = async(req,res) => {
+   try {
+      if (!req.user?.isAdmin) {
+        return res.status(401).json({ error: "you are not authorized" });
+     }
+     
+     const response = await EId.find().select("-password");
+     res.status(200).json(response)
+   } catch (error) {
+    res.status(500).json({error:"Internal sever error "+error.message})
+   }
+}

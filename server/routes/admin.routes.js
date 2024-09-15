@@ -6,6 +6,7 @@ import {
   getAll,
   deleteStaff,
   staffRegister,
+  getAllStaff
 } from "../controllers/auth.controllers.js";
 import { protectRoute } from "../middleware/ProtectAuth.js";
 
@@ -17,5 +18,6 @@ router.post("/addWorkers", protectRoute, addWorkers);
 router.get("/all", protectRoute, getAll);
 router.delete("/delete/:id", protectRoute, deleteStaff);
 router.post("/staffSignup", protectRoute, staffRegister);
+router.get("/getAllstaff",protectRoute, getAllStaff)
 
 export default router;
