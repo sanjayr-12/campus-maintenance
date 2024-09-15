@@ -37,7 +37,7 @@ export const NavBar = () => {
       <div className="nav-container">
         <p>{user?.name}</p>
         <Link to="/assign-works">Assign Works</Link>
-        <Link to="/status">Status</Link>
+        <Link to="/register-staff">Register</Link>
         <p className="nav-logout" onClick={handleLogout}>
           Logout
         </p>

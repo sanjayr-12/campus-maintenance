@@ -4,6 +4,7 @@ import AdminLogin from "./pages/Login/AdminLogin";
 import { Dashboard } from "./pages/dashboard/Dashboard";
 import Verify from "./utils/Verify";
 import { AssignWorks } from "./pages/assign/AssignWorks";
+import { RegisterStaff } from "./components/registerStaff/RegisterStaff";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route element={<Verify />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/assign-works" element={<AssignWorks />} />
+          <Route path="/register-staff" element={<RegisterStaff/>}/>
         </Route>
         {/* </Route> */}
       </Routes>

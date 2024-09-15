@@ -1,0 +1,35 @@
+.main-register-container {
+  width: 100vw;
+  display: flex;
+}
+
+.main-register-container form {
+  flex: 1;
+}
+
+.main-register-container p {
+  /* flex: 1; */
+  margin-left: 12px;
+  text-decoration: underline;
+}
+
+.main-register-container span {
+  border-left: 4px solid transparent;
+  height: 100vh;
+  border-image: linear-gradient(to bottom, #2c3e50, #4ca1af) 1;
+}
+
+.get-staff-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.children li {
+    text-decoration: none;
+    
+}
+
+
+
