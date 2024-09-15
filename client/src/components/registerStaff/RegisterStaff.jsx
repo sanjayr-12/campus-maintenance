@@ -4,7 +4,8 @@ import "./registerStaff.css";
 import { useEffect, useState } from "react";
 
 export const RegisterStaff = () => {
-  const [staff, setstaff] = useState([]);
+    const [staff, setstaff] = useState([]);
+    const [render, setRender] = useState(0)
 
   useEffect(() => {
     async function getAll() {
@@ -20,7 +21,7 @@ export const RegisterStaff = () => {
       }
     }
     getAll();
-  }, []);
+  }, [render]);
 
   console.log(staff);
   const handleSubmit = async (e) => {
@@ -34,11 +35,12 @@ export const RegisterStaff = () => {
         "/api/admin/staffSignup",
         { name, password },
         { withCredentials: true }
-      );
+        );
+        setRender(render+1)
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.error);
-    }
+    } 
   };
 
   return (
@@ -60,7 +62,7 @@ export const RegisterStaff = () => {
           {staff.map((item) => {
             return (
               <div key={item._id} className="children">
-                <li>
+                <li className="staffs">
                   {item.name} - {item.slug}
                 </li>
               </div>
