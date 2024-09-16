@@ -4,8 +4,8 @@
 }
 .nav-container a.selected {
   background-color: #475569;
-  color: var(--clr-hover-light); /* Optional: Change text color */
-  border-color: #475569; /* Make sure the border color matches */
+  color: var(--clr-hover-light); 
+  border-color: #475569; 
 }
 
 .main-nav-container {
@@ -36,6 +36,10 @@
   border: 2px solid transparent;
   transition: background-color 0.5s ease, border-color 0.5s ease,
     color 0.5s ease;
+}
+
+.nav-container p {
+  cursor: pointer;
 }
 
 .nav-container a:hover {
@@ -116,12 +120,12 @@
   }
 }
 
-@media (250px <= width <= 425px){
-    .nav-container{
-      gap: 1px;
-      overflow: hidden;
-      font-size: smaller;
-      width: 100%;
-      margin-right: 0%;
-    }
+@media (250px <= width <= 425px) {
+  .nav-container {
+    gap: 1px;
+    overflow: hidden;
+    font-size: smaller;
+    width: 100%;
+    margin-right: 0%;
+  }
 }

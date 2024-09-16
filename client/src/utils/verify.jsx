@@ -27,7 +27,7 @@ const Verify = () => {
             );
           }
           toast.success("verified");
-          navigate("/dashboard");
+          navigate("/");
         } catch (error) {
           console.log(error);
           toast.error("verification fails");

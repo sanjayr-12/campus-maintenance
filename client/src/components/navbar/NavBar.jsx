@@ -9,8 +9,9 @@ export const NavBar = () => {
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
   const setLogout = useStore((state) => state.setLogOut);
+  const data = localStorage.getItem("user")
+  const admin = JSON.parse(data)
 
-  // console.log(user);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -20,7 +21,7 @@ export const NavBar = () => {
         {},
         { withCredentials: true }
       );
-      if (response.status == 200) {
+      if (response.status === 200) {
         setUser({ user: null });
         setLogout(true);
         navigate("/login");
@@ -32,12 +33,16 @@ export const NavBar = () => {
     }
   };
 
+  const handleclick = () => {
+    navigate("/");
+  };
+  console.log(admin);
   return (
     <div className="main-nav-container">
       <div className="nav-container">
-        <p>{user?.name}</p>
-        <Link to="/assign-works">Assign Works</Link>
-        <Link to="/register-staff">Register</Link>
+        <p onClick={handleclick}>{user?.name}</p>
+        <Link to="assign-works">Assign Works</Link>
+        {admin.admin && <Link to="register-staff">Register</Link>}
         <p className="nav-logout" onClick={handleLogout}>
           Logout
         </p>
