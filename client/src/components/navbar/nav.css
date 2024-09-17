@@ -61,10 +61,20 @@
   border-color: #475569;
 }
 
-/* xs */
-@media (min-width: 475px) {
-  .main-nav-container {
-    max-width: 475px;
+@media (475px<=width<= 548px) {
+  .nav-container{
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .main-nav-container{
+    margin-left: 0;
+    padding-left: 0;
+    justify-content: center;
+    
   }
 }
 
