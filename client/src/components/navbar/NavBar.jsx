@@ -36,7 +36,7 @@ export const NavBar = () => {
   const handleclick = () => {
     navigate("/");
   };
-  console.log(admin);
+
   return (
     <div className="main-nav-container">
       <div className="nav-container">

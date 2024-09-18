@@ -72,6 +72,13 @@
   text-align: center;
 }
 
+.delete-btn{
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  background-color: red;
+}
+
 @media (318px <= width <= 515px) {
   .main-register-container {
     display: flex;

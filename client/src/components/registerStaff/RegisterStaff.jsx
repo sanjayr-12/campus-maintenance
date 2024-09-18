@@ -18,20 +18,18 @@ export const RegisterStaff = () => {
         );
         setstaff(response.data);
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.error)
       }
     }
     getAll();
   }, [render]);
 
-  console.log(staff);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     const formdata = new FormData(e.target);
     const name = formdata.get("name");
     const password = formdata.get("password");
-
     try {
       const response = await axios.post(
         "/api/admin/staffSignup",
@@ -44,6 +42,18 @@ export const RegisterStaff = () => {
       toast.error(error.response.data.error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await axios.delete(`/api/admin/delete/${id}`, {
+        withCredentials: true,
+      });
+      toast.success(result.data.message);
+      setRender(render + 1);
+    } catch (error) {
+      toast.error(error.response.data.error);
     }
   };
 
@@ -71,6 +81,7 @@ export const RegisterStaff = () => {
             <tr>
               <th>Name</th>
               <th>User ID</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +90,14 @@ export const RegisterStaff = () => {
                 <tr key={item._id}>
                   <td>{item.name}</td>
                   <td>{item.slug}</td>
+                  <td>
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="delete-btn"
+                    >
+                      X
+                    </button>
+                  </td>
                 </tr>
               );
             })}
