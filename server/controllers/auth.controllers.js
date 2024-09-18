@@ -69,7 +69,6 @@ export const login = async (req, res) => {
   }
 };
 
-
 export const addWorkers = async (req, res) => {
   try {
     const { slug, workers, location } = req.body;
@@ -120,8 +119,11 @@ export const getAll = async (req, res) => {
 
 export const deleteStaff = async (req, res) => {
   try {
+    if (!req.user?.isAdmin) {
+      return res.status(401).json({ error: "You are not authorized" });
+    }
     const { id } = req.params;
-    const checkStaff = await Staff.findByIdAndDelete(id);
+    const checkStaff = await EId.findByIdAndDelete(id);
 
     if (!checkStaff) {
       return res.status(400).json({ error: "there is no staff" });
@@ -186,16 +188,15 @@ export const staffRegister = async (req, res) => {
   }
 };
 
+export const getAllStaff = async (req, res) => {
+  try {
+    if (!req.user?.isAdmin) {
+      return res.status(401).json({ error: "you are not authorized" });
+    }
 
-export const getAllStaff = async(req,res) => {
-   try {
-      if (!req.user?.isAdmin) {
-        return res.status(401).json({ error: "you are not authorized" });
-     }
-     
-     const response = await EId.find().select("-password");
-     res.status(200).json(response)
-   } catch (error) {
-    res.status(500).json({error:"Internal sever error "+error.message})
-   }
-}
+    const response = await EId.find().select("-password").sort({ createdAt: -1 });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: "Internal sever error " + error.message });
+  }
+};

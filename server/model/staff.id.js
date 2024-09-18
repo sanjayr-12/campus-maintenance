@@ -17,7 +17,7 @@ const staffId = new mongoose.Schema({
         type: String,
     }
     
-})
+}, {timestamps:true})
 
 //eid means essential id
 const EId = mongoose.model("StaffId", staffId)

@@ -25,7 +25,7 @@ const staffSchema = new mongoose.Schema({
       },
     },
   ],
-});
+}, {timestamps:true});
 
 staffSchema.pre("save", function (next) {
   this.workers.forEach((worker) => {
