@@ -7,9 +7,11 @@ export const RegisterStaff = () => {
   const [staff, setstaff] = useState([]);
   const [render, setRender] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function getAll() {
+      setLoading(true); 
       try {
         const response = await axios.get(
           "/api/admin/getAllstaff",
@@ -18,7 +20,9 @@ export const RegisterStaff = () => {
         );
         setstaff(response.data);
       } catch (error) {
-        toast.error(error.response.data.error)
+        toast.error(error.response.data.error);
+      } finally {
+        setLoading(false); 
       }
     }
     getAll();
@@ -84,24 +88,32 @@ export const RegisterStaff = () => {
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody>
-            {staff.map((item) => {
-              return (
-                <tr key={item._id}>
-                  <td>{item.name}</td>
-                  <td>{item.slug}</td>
-                  <td>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="delete-btn"
-                    >
-                      X
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+          {loading ? (
+            <tbody>
+              <tr>
+                <td colSpan="3">Loading...</td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              {staff.map((item) => {
+                return (
+                  <tr key={item._id}>
+                    <td>{item.name}</td>
+                    <td>{item.slug}</td>
+                    <td>
+                      <button
+                        onClick={() => handleDelete(item._id)}
+                        className="delete-btn"
+                      >
+                        X
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
       </div>
     </div>
