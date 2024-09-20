@@ -20,7 +20,6 @@ app.use("/api/admin",authRoutes)
 app.use("/api/staff", staffRoutes)
 app.use("/api/util", commonRoutes)
 
-
 app.listen(PORT, () => {
     console.log(`server started at ${PORT}`);
      connectDB();

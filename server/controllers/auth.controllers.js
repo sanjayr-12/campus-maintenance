@@ -124,9 +124,12 @@ export const deleteStaff = async (req, res) => {
     }
     const { id } = req.params;
     const checkStaff = await EId.findByIdAndDelete(id);
-
     if (!checkStaff) {
       return res.status(400).json({ error: "there is no staff" });
+    }
+    const deleteStaff = await Staff.findOneAndDelete({ slug: checkStaff.slug });
+    if (!deleteStaff) {
+      return res.status(400).json({error:"No staff"});
     }
     res.status(200).json({
       message: `${checkStaff.name} - ${checkStaff.slug} deleted successfully`,
@@ -194,7 +197,9 @@ export const getAllStaff = async (req, res) => {
       return res.status(401).json({ error: "you are not authorized" });
     }
 
-    const response = await EId.find().select("-password").sort({ createdAt: -1 });
+    const response = await EId.find()
+      .select("-password")
+      .sort({ createdAt: -1 });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ error: "Internal sever error " + error.message });
