@@ -56,6 +56,7 @@ export const AssignWorks = () => {
       <form onSubmit={handleSubmit} className="assign-form-container">
         <label htmlFor="staff">Username:</label>
         <select name="staff" id="staff" required>
+          <option value="" disabled selected>Select staff</option>
           {staff.map((item) => {
             return (
               <option key={item.slug} value={item.slug}>
