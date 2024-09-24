@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import EId from "../model/staff.id.js";
 import Staff from "../model/staff.schema.js";
 import GenerateToken from "../jwt/generate.token.js";
+import { checkWorkers } from "../utils/checkWorkers.js";
 
 export const login = async (req, res) => {
   try {
@@ -72,15 +73,27 @@ export const deleteWorkers = async (req, res) => {
   try {
     const { id } = req.params;
     const staffId = req.user.slug;
-    const deleteOne = await Staff.updateOne(
-      { slug: staffId },
-      { $pull: { workers: { _id: id } } },
-      { new: true }
-    );
-    if (!deleteOne) {
-      return res.status(400).json({ error: "cant delete" });
+    const check = await Staff.findOne({ slug: staffId });
+    if (!check) {
+      return res.status(400).json({ error: "No staff found" });
     }
-    res.status(200).json({ message: "deleted successfully " });
+    //check two
+    const checkWorker = await checkWorkers(check, id);
+    if (checkWorker) {
+      const deleteOne = await Staff.updateOne(
+        { slug: staffId },
+        { $pull: { workers: { _id: id } } },
+        { new: true }
+      );
+      if (!deleteOne) {
+        return res.status(400).json({ error: "can't delete" });
+      }
+      return res.status(200).json({ message: "deleted successfully " });
+    }
+
+    return res
+      .status(400)
+      .json({ error: "you are not authorized to delete other staff workers" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error " + error.message });
   }
