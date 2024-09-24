@@ -19,7 +19,7 @@ export const AssignWorks = () => {
       }
     }
     getStaff();
-  });
+  },[]);
   const handleNumbers = (e) => {
     let count = e.target.value;
     if (count > 10) {
@@ -55,8 +55,8 @@ export const AssignWorks = () => {
     <div className="assign-main-container">
       <form onSubmit={handleSubmit} className="assign-form-container">
         <label htmlFor="staff">Username:</label>
-        <select name="staff" id="staff" required>
-          <option value="" disabled selected>Select staff</option>
+        <select name="staff" id="staff" required defaultValue="">
+          <option value="" disabled>Select staff</option>
           {staff.map((item) => {
             return (
               <option key={item.slug} value={item.slug}>
