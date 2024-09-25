@@ -16,7 +16,7 @@ const router = express.Router();
 router.post("/login", login);
 router.get("/getAll", protectRoute, getAll);
 router.patch("/update", protectRoute, updateWorkers);
-router.delete("/delete/:id", protectRoute, deleteWorkers);
+router.post("/delete/:id", protectRoute, deleteWorkers);
 
 
 export default router;

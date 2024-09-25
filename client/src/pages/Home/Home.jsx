@@ -22,13 +22,11 @@ export const Home = () => {
     getAll();
   }, [count]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, data) => {
     try {
-      const response = await axios.delete(`api/staff/delete/${id}`, {
-        withCredentials: true,
-      });
+      const response = await axios.post(`api/staff/delete/${id}`,{id, slug:data.slug}, {withCredentials:true});
       toast.success(response.data.message);
-      setCount(count+1)
+      setCount(count + 1);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.error);
@@ -60,7 +58,7 @@ export const Home = () => {
                       <td>
                         {" "}
                         <button
-                          onClick={() => handleDelete(worker._id)}
+                          onClick={() => handleDelete(worker._id, data)}
                           className="delete-btn"
                         >
                           X
@@ -74,7 +72,7 @@ export const Home = () => {
           </div>
         );
       })}
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

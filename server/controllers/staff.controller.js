@@ -71,12 +71,27 @@ export const updateWorkers = async (req, res) => {
 
 export const deleteWorkers = async (req, res) => {
   try {
-    const { id } = req.params;
-    const staffId = req.user.slug;
+    const { id, slug } = req.body;
+    let staffId = req.user.slug;
+    const isAdmin = req.user.isAdmin;
+    if (isAdmin) {
+      staffId = slug;
+      const deleteOne = await Staff.updateOne(
+        { slug: staffId },
+        { $pull: { workers: { _id: id } } },
+        { new: true }
+      );
+      if (!deleteOne) {
+        return res.status(400).json({ error: "can't delete" });
+      }
+      return res.status(200).json({ message: "deleted successfully " });
+    }
+
     const check = await Staff.findOne({ slug: staffId });
     if (!check) {
       return res.status(400).json({ error: "No staff found" });
     }
+
     //check two
     const checkWorker = await checkWorkers(check, id);
     if (checkWorker) {
