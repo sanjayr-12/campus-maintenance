@@ -24,11 +24,27 @@ export const Home = () => {
 
   const handleDelete = async (id, data) => {
     try {
-      const response = await axios.post(`api/staff/delete/${id}`,{id, slug:data.slug}, {withCredentials:true});
+      const response = await axios.post(
+        `api/staff/delete/${id}`,
+        { id, slug: data.slug },
+        { withCredentials: true }
+      );
       toast.success(response.data.message);
       setCount(count + 1);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.error);
+    }
+  };
+
+  const handleStaffDelete = async (id) => {
+    try {
+      const result = await axios.delete(`/api/admin/delete/${id}`, {
+        withCredentials: true,
+      });
+      toast.success(result.data.message);
+      setCount(count + 1);
+    } catch (error) {
       toast.error(error.response.data.error);
     }
   };
@@ -38,7 +54,15 @@ export const Home = () => {
       {allData.map((data) => {
         return (
           <div key={data._id}>
-            <h3>Managing Staff: {data.name}</h3>
+            <h3>
+              Managing Staff: {data.name}{" "}
+              <button
+                className="delete-btn"
+                onClick={() => handleStaffDelete(data._id)}
+              >
+                X
+              </button>
+            </h3>
             <table>
               <thead>
                 <tr>

@@ -49,7 +49,7 @@ export const RegisterStaff = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+   const handleDelete = async (id) => {
     try {
       const result = await axios.delete(`/api/admin/delete/${id}`, {
         withCredentials: true,
